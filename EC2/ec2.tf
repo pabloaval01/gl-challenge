@@ -1,22 +1,6 @@
-# Generate TLS keys
-resource "tls_private_key" "ssh_key" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-# Create the key pair
-resource "aws_key_pair" "ec2_redhat_key" {
-  key_name   = "ec2-redhat-test-keypair"
-  public_key = tls_private_key.ssh_key.public_key_openssh
-}
-
-# Save the private key locally for use in SSH
-resource "local_file" "private_key_pem" {
-  content         = tls_private_key.ssh_key.private_key_pem
-  filename        = "${path.module}/ec2-redhat-test-keypair.pem"
-  file_permission = "0400"
-}
-
+#####################
+### DATA SOURCES  ###
+#####################
 
 data "aws_vpc" "vpc_nfw" {
   filter {
@@ -41,22 +25,54 @@ data "aws_kms_key" "backend_key" {
   key_id = "alias/pv-demo-terraform-backend-key"
 }
 
+#################
+### KEY Pair  ###
+#################
+
+# Generate TLS keys
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Key Pair
+resource "aws_key_pair" "ec2_redhat_key" {
+  key_name   = var.ec2_demo_pv_key_pair_name
+  public_key = tls_private_key.ssh_key.public_key_openssh
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = [public_key]
+  }
+}
+
+# Save key locally
+resource "local_file" "private_key_pem" {
+  content         = tls_private_key.ssh_key.private_key_pem
+  filename        = "${path.module}/${var.ec2_demo_pv_key_pair_name}.pem"
+  file_permission = "0400"
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [filename]
+  }
+
+}
+
+###########
+### EC2 ###
+###########
+
 module "ec2_test" {
   source            = "github.com/Coalfire-CF/terraform-aws-ec2"
   name              = var.instance_name
   ami               = data.aws_ami.redhat.id
   ec2_instance_type = var.instance_type
   instance_count    = var.instance_count
-  ebs_optimized     = false
+  ebs_optimized     = false # --> The instance type (t2.micro) has an EBS Optimized value of (unsupported),
   vpc_id            = data.aws_vpc.vpc_nfw.id
   subnet_ids        = [data.aws_subnet.sub2.id] # --> Subnet2
-
-
-  #ec2_key_pair    = var.key_name
-  ec2_key_pair    = aws_key_pair.ec2_redhat_key.key_name
+  ec2_key_pair    = var.ec2_demo_pv_key_pair_name
   ebs_kms_key_arn = data.aws_kms_key.backend_key.arn
-
-  # Storage
   root_volume_size = var.instance_volume_size
 
   # Security Group Rules
@@ -79,7 +95,6 @@ module "ec2_test" {
       description = "Allow all egress"
     }
   }
-
 
   # Tagging
   global_tags = var.tags

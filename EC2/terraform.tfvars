@@ -30,6 +30,7 @@ private_subnet_tags = {
   "1" = "private-b"
 }
 
+ec2_demo_pv_key_pair_name = "ec2-redhat-test-keypair"
 
 instance_size          = "t2.micro"
 instance_name          = "Challenge-GL"

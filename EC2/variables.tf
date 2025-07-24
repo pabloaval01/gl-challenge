@@ -42,6 +42,11 @@ variable "tags" {
 }
 
 
+variable "ec2_demo_pv_key_pair_name" {
+  type    = string
+  default = "ec2-redhat-test-keypair"
+}
+
 variable "instance_name" {
   description = "Name of EC2 instance"
   type        = string
