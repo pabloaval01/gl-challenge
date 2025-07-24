@@ -31,8 +31,8 @@ module "ec2_test" {
 
   #ec2_key_pair    = var.key_name
   ec2_key_pair    = aws_key_pair.ec2_redhat_key.key_name
-  ebs_kms_key_arn = data.terraform_remote_state.kms.outputs.ebs_kms_key_arn 
-  
+  ebs_kms_key_arn = data.terraform_remote_state.kms.outputs.ebs_kms_key_arn
+
   # Storage
   root_volume_size = var.instance_volume_size
 
