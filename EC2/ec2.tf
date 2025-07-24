@@ -1,22 +1,45 @@
-# Genera par de claves TLS (privada y pública)
+# Generate TLS keys
 resource "tls_private_key" "ssh_key" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
-# Crea el key pair en AWS con la clave pública generada
+# Create the key pair
 resource "aws_key_pair" "ec2_redhat_key" {
   key_name   = "ec2-redhat-test-keypair"
   public_key = tls_private_key.ssh_key.public_key_openssh
 }
 
-# Guarda la clave privada localmente para usar en SSH
+# Save the private key locally for use in SSH
 resource "local_file" "private_key_pem" {
   content         = tls_private_key.ssh_key.private_key_pem
-  filename        = "${path.module}/ec2-redhat-test-keypair.pem" # nombre consistente con keypair
+  filename        = "${path.module}/ec2-redhat-test-keypair.pem"
   file_permission = "0400"
 }
 
+
+data "aws_vpc" "vpc_nfw" {
+  filter {
+    name   = "tag:Name"
+    values = ["vpc-nfw"]
+  }
+}
+
+data "aws_subnet" "sub2" {
+  filter {
+    name   = "tag:Name"
+    values = ["vpc-nfw-public-us-east-1b"]
+  }
+
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc_nfw.id]
+  }
+}
+
+data "aws_kms_key" "backend_key" {
+  key_id = "alias/pv-demo-terraform-backend-key"
+}
 
 module "ec2_test" {
   source            = "github.com/Coalfire-CF/terraform-aws-ec2"
@@ -24,14 +47,14 @@ module "ec2_test" {
   ami               = data.aws_ami.redhat.id
   ec2_instance_type = var.instance_type
   instance_count    = var.instance_count
-
-  vpc_id     = module.vpc_nfw.vpc_id
-  subnet_ids = [module.vpc_nfw.public_subnets[1]] # --> Subnet2
+  ebs_optimized     = false
+  vpc_id            = data.aws_vpc.vpc_nfw.id
+  subnet_ids        = [data.aws_subnet.sub2.id] # --> Subnet2
 
 
   #ec2_key_pair    = var.key_name
   ec2_key_pair    = aws_key_pair.ec2_redhat_key.key_name
-  ebs_kms_key_arn = data.terraform_remote_state.kms.outputs.ebs_kms_key_arn
+  ebs_kms_key_arn = data.aws_kms_key.backend_key.arn
 
   # Storage
   root_volume_size = var.instance_volume_size
@@ -59,5 +82,5 @@ module "ec2_test" {
 
 
   # Tagging
-  global_tags = {}
+  global_tags = var.tags
 }

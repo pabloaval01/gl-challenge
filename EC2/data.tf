@@ -22,3 +22,4 @@ data "aws_ami" "redhat" {
     values = ["ebs"]
   }
 }
+

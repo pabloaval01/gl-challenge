@@ -36,6 +36,11 @@ variable "private_subnet_tags" {
   type        = map(string)
 }
 
+variable "public_subnet_tags" {
+  description = "public subnets"
+  type        = map(string)
+}
+
 variable "tags" {
   type    = map(string)
   default = {}

@@ -30,7 +30,10 @@ private_subnet_tags = {
   "1" = "private-b"
 }
 
-public_subnet_tags = {
-  "0" = "public-a"
-  "1" = "public-b"
-}
+
+instance_size          = "t2.micro"
+instance_name          = "Challenge-GL"
+instance_type          = "t2.micro"
+instance_count         = "1"
+instance_volume_size   = "20"
+cidr_for_remote_access = "10.1.1.0/24"
