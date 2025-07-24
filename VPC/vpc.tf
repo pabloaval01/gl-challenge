@@ -15,9 +15,5 @@ module "vpc_nfw" {
   single_nat_gateway   = true
   enable_dns_hostnames = true
 
-
-  tags = {
-    Environment = "dev"
-    Owner       = "Pablo.valentino"
-  }
+  tags = var.tags
 }
