@@ -37,33 +37,6 @@ variable "private_subnet_tags" {
 }
 
 variable "tags" {
-  description = "Resources Tags"
   type        = map(string)
-}
-
-
-variable "instance_name" {
-  description = "Name of EC2 instance"
-  type        = string
-}
-
-variable "instance_type" {
-  type = string
-}
-
-variable "instance_size" {
-  type = string
-}
-
-variable "instance_count" {
-  type = string
-}
-
-variable "instance_volume_size" {
-  type = string
-}
-
-variable "cidr_for_remote_access" {
-  description = "Allow access range per port 22"
-  type        = string
+  default     = {}
 }
