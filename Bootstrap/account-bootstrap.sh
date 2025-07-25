@@ -5,7 +5,7 @@ PROJECT_NAME="terraform-backend"
 BUCKET_NAME="pv-demo-terraform-backend"
 DYNAMO_TABLE="pv-demo-terraform-lock"
 REGION="us-east-1"
-KEY_ALIAS="alias/pv-demo-terraform-backend-key"
+KEY_ALIAS="alias/pv-01-demo-terraform-backend-key"
 TFSTATE_KEY_PATH="global/bootstrap/terraform.tfstate"  
 BACKEND_FILE="backend.tf"
 
