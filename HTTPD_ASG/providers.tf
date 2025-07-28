@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket         = "globallogic-demo-terraform-backend"
-    key            = "terraform-aws-ec2/terraform.tfstate"
+    key            = "httpd_asg/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
     dynamodb_table = "globallogic-demo-terraform-lock"

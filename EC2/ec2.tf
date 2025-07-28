@@ -22,7 +22,7 @@ data "aws_subnet" "sub2" {
 }
 
 data "aws_kms_key" "backend_key" {
-  key_id = "alias/pv-demo-terraform-backend-key"
+  key_id = "alias/globallogic-demo-terraform-backend-key"
 }
 
 #################
