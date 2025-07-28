@@ -28,8 +28,8 @@ locals {
 
 
 resource "aws_security_group" "alb_sg" {
-  name        = "alb-http-sg"
-  vpc_id      = data.aws_vpc.vpc_nfw.id
+  name   = "alb-http-sg"
+  vpc_id = data.aws_vpc.vpc_nfw.id
 
   ingress {
     from_port   = 80
@@ -64,11 +64,11 @@ resource "aws_lb" "http_alb" {
 ###################################
 
 resource "aws_lb_target_group" "asg_tg" {
-  name     = "alb-asg-tg"
-  port     = var.target_port
-  protocol = "HTTPS"
-  vpc_id   = data.aws_vpc.vpc_nfw.id
-  target_type = "instance"  
+  name        = "alb-asg-tg"
+  port        = var.target_port
+  protocol    = "HTTPS"
+  vpc_id      = data.aws_vpc.vpc_nfw.id
+  target_type = "instance"
 
   health_check {
     path                = "/"

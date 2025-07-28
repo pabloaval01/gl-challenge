@@ -33,15 +33,12 @@ variable "key_name" {
   type = string
 }
 
-variable "iam_instance_role_name" {
-  type        = string
-}
 variable "tags" {
-  type        = map(string)
-  default     = {}
+  type    = map(string)
+  default = {}
 }
 variable "user_data" {
-  type        = string
+  type = string
 }
 
 variable "ec2_asg_demo_pv_key_pair_name" {
@@ -50,8 +47,8 @@ variable "ec2_asg_demo_pv_key_pair_name" {
 }
 
 variable "instance_name_tag" {
-   type        = string
- }
+  type = string
+}
 
 variable "cidr_for_remote_access" {
   description = "Allow access range per port 22"
@@ -63,6 +60,9 @@ variable "target_group_arn" {
 }
 
 variable "alb_security_group_id" {
-  type        = string
+  type = string
 }
 
+variable "iam_instance_profile_name" {
+  type = string
+}

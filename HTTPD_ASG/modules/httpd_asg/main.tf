@@ -2,11 +2,6 @@ data "template_file" "user_data" {
   template = var.user_data
 }
 
-resource "aws_iam_instance_profile" "instance_profile" {
-  name = "httpd-asg-instance-profile"
-  role = var.iam_instance_role_name
-}
-
 # data "template_file" "user_data" {
 #   template = var.user_data
 # }
@@ -24,11 +19,11 @@ resource "tls_private_key" "ssh_key" {
 resource "aws_key_pair" "ec2_redhat_key" {
   key_name   = var.ec2_asg_demo_pv_key_pair_name
   public_key = tls_private_key.ssh_key.public_key_openssh
-  tags = var.tags
+  tags       = var.tags
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = [public_key] 
+    ignore_changes        = [public_key]
   }
 
 }
@@ -39,8 +34,8 @@ resource "local_file" "private_key_pem" {
   file_permission = "0400"
 
   lifecycle {
-    prevent_destroy = true       
-    ignore_changes  = [filename] 
+    prevent_destroy = true
+    ignore_changes  = [filename]
   }
 }
 
@@ -64,10 +59,10 @@ resource "aws_security_group" "httpd_sg" {
   }
 
   ingress {
-    from_port                = 443
-    to_port                  = 443
-    protocol                 = "tcp"
-    security_groups          = [var.alb_security_group_id]
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [var.alb_security_group_id]
   }
   egress {
     from_port   = 0
@@ -81,11 +76,11 @@ resource "aws_security_group" "httpd_sg" {
 
 
 resource "aws_launch_template" "httpd_template" {
-  name_prefix   = "httpd-launch-template-"
-  image_id      = var.ami_id
-  instance_type = var.instance_type
+  name_prefix            = "httpd-launch-template-"
+  image_id               = var.ami_id
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.httpd_sg.id]
-  key_name      = var.key_name
+  key_name               = var.key_name
 
   user_data = base64encode(data.template_file.user_data.rendered)
 
@@ -97,12 +92,16 @@ resource "aws_launch_template" "httpd_template" {
       volume_type = "gp2"
     }
   }
-  
+
+  iam_instance_profile {
+    name = var.iam_instance_profile_name
+  }
+
   tag_specifications {
     resource_type = "instance"
 
     tags = merge(var.tags, {
-      Name = var.instance_name_tag  
+      Name = var.instance_name_tag
     })
   }
 
@@ -110,12 +109,12 @@ resource "aws_launch_template" "httpd_template" {
 }
 
 resource "aws_autoscaling_group" "httpd_asg" {
-  name                      = "httpd-asg"
-  min_size                  = var.asg_min_size
-  max_size                  = var.asg_max_size
-  desired_capacity          = var.asg_min_size
-  vpc_zone_identifier       = var.subnet_ids
-  target_group_arns = [var.target_group_arn]
+  name                = "httpd-asg"
+  min_size            = var.asg_min_size
+  max_size            = var.asg_max_size
+  desired_capacity    = var.asg_min_size
+  vpc_zone_identifier = var.subnet_ids
+  target_group_arns   = [var.target_group_arn]
 
   launch_template {
     id      = aws_launch_template.httpd_template.id
@@ -133,5 +132,5 @@ resource "aws_autoscaling_group" "httpd_asg" {
       value               = tag.value
       propagate_at_launch = true
     }
-}
+  }
 }

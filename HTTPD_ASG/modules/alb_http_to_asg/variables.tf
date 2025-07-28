@@ -1,13 +1,13 @@
 variable "asg_name" {
-  type        = string
+  type = string
 }
 
 variable "tags" {
-  type        = map(string)
+  type = map(string)
 }
 
 variable "target_port" {
-  type        = number
-  default     = 443
+  type    = number
+  default = 443
 }
 

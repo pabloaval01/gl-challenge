@@ -71,9 +71,9 @@ module "ec2_test" {
   ebs_optimized     = false # --> The instance type (t2.micro) has an EBS Optimized value of (unsupported),
   vpc_id            = data.aws_vpc.vpc_nfw.id
   subnet_ids        = [data.aws_subnet.sub2.id] # --> Subnet2
-  ec2_key_pair    = var.ec2_demo_pv_key_pair_name
-  ebs_kms_key_arn = data.aws_kms_key.backend_key.arn
-  root_volume_size = var.instance_volume_size
+  ec2_key_pair      = var.ec2_demo_pv_key_pair_name
+  ebs_kms_key_arn   = data.aws_kms_key.backend_key.arn
+  root_volume_size  = var.instance_volume_size
 
   # Security Group Rules
   ingress_rules = {
