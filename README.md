@@ -476,3 +476,45 @@ aws iam get-role --role-name asg-consolidated-role
     }
 }
 ```
+
+Instance Profile:
+
+```bash
+#Instance Profile used in the Launch Template
+aws ec2 describe-launch-template-versions \
+  --launch-template-id lt-0221f2b9dc4b414d6 \
+  --versions $(aws ec2 describe-launch-templates \
+    --launch-template-ids lt-0221f2b9dc4b414d6 \
+    --query 'LaunchTemplates[0].LatestVersionNumber' \
+    --output text) \
+  --query "LaunchTemplateVersions[0].LaunchTemplateData.IamInstanceProfile.Name" \
+  --output text
+
+asg-instance-profile
+```
+
+```bash
+#Role linked to the Instance Profile
+aws iam get-instance-profile \
+  --instance-profile-name asg-instance-profile \
+  --query "InstanceProfile.Roles[0].RoleName" \
+  --output text
+
+asg-consolidated-role
+
+```bash
+#InstanceProfile attached to the Launch Template
+aws ec2 describe-launch-template-versions \
+  --launch-template-id lt-0221f2b9dc4b414d6 \
+  --versions $(aws ec2 describe-launch-templates \
+    --launch-template-ids lt-0221f2b9dc4b414d6 \
+    --query 'LaunchTemplates[0].LatestVersionNumber' \
+    --output text) \
+  --query "LaunchTemplateVersions[0].LaunchTemplateData.IamInstanceProfile" \
+  --output json
+```
+```json
+{
+    "Name": "asg-instance-profile"
+}
+```
