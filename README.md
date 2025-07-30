@@ -250,7 +250,7 @@ The `terraform apply` command was executed to deploy the infrastructure resource
  - The following is an extract from the log, which is stored in full at [`docs/ec2_apply.log`](docs/ec2_apply.log):
  
 Instance running:
-[`docs/assets/aws_ec2.png`](docs/assets/aws_ec2.png):
+![`EC2 Running`](docs/assets/aws_ec2.png):
 
 
 #### InstanceType, Platform, subnet and volume
