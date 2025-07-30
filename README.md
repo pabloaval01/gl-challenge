@@ -213,7 +213,7 @@ This improvement plan aims to list opportunities to optimize the security, maint
 - Reuse S3 modules. Two different modules are currently used to create buckets. A customizable module can be created using variables.
 
 
-## Analysis of Operational Gaps
+### Analysis of Operational Gaps
 
 - Access to EC2 instances: Currently relies on an insecurely stored locally PEM certificate, in addition to having to open port 22 in the Security Group ingress rules. SSM is not used to access instances without relying on the certificate, nor is a secure access PEM storage solution orchestrated.
 
@@ -242,7 +242,7 @@ VPC deployed:
 ![VPC Resource](docs/assets/aws_vpc.png)
 
 
-# EC2
+## EC2
 ### `terraform apply` log
 
 The `terraform apply` command was executed to deploy the infrastructure resources.
@@ -250,7 +250,7 @@ The `terraform apply` command was executed to deploy the infrastructure resource
  - The following is an extract from the log, which is stored in full at [`docs/ec2_apply.log`](docs/ec2_apply.log):
  
 Instance running:
-![`EC2 Running`](docs/assets/aws_ec2.png):
+![`EC2 Running`](docs/assets/aws_ec2.png)
 
 
 #### InstanceType, Platform, subnet and volume
@@ -289,11 +289,11 @@ aws ec2 describe-volumes \
 
 20
 ```
-# Httpd Autoscalling
+## Httpd Autoscalling
 
 ![`ASG`](docs/assets/asg.png):
 
-<u>ASG Subnets:<u>
+### ASG Subnets:
 
 ```bash
 aws autoscaling describe-auto-scaling-groups \
@@ -320,7 +320,7 @@ aws ec2 describe-subnets \
 +-------------------------------+----------------------------+
 ```
 
-<u>Provisioned Instances:<u>
+### Provisioned Instances:
 
 ```bash
 aws ec2 describe-launch-template-versions \
@@ -348,7 +348,7 @@ ec2 describe-launch-template-versions \
 ami-0a74a0465cdeea9b3
 ```
 
-SO Running:
+### SO Running:
 ```bash
 aws ec2 describe-images \ 
     --image-ids ami-0a74a0465cdeea9b3 \
@@ -358,7 +358,7 @@ aws ec2 describe-images \
 Red Hat Enterprise Linux
 ```
 
-<u>User-data script to install httpd on instances:<u>
+### User-data script to install httpd on instances:
 
 ```bash
  aws ec2 describe-launch-template-versions \     --launch-template-id lt-0221f2b9dc4b414d6 \
@@ -423,7 +423,7 @@ echo "Apache HTTP and HTTPS OK - $(hostname -f)" > /var/www/html/index.html
 systemctl restart httpd
 ```
 
-<u>IAM Role:<u>
+### IAM Role:
 
 ```bash
 aws iam get-role --role-name asg-consolidated-role
@@ -477,7 +477,7 @@ aws iam get-role --role-name asg-consolidated-role
 }
 ```
 
-<u>Instance Profile:<u>
+#### Instance Profile:
 
 ```bash
 #Instance Profile used in the Launch Template
@@ -501,7 +501,7 @@ aws iam get-instance-profile \
   --output text
 ```
 
-<u>asg-consolidated-role<u>
+#### asg-consolidated-role:
 
 ```bash
 #InstanceProfile attached to the Launch Template
@@ -520,6 +520,11 @@ aws ec2 describe-launch-template-versions \
 }
 ```
 
-<u>S3 Buckets:<u>
+### S3 Buckets:
 
+Buckets present in the account:
+![`s3 buckets`](docs/assets/aws_s3.png):
 
+Folders created:
+![`s3 buckets image folders`](docs/assets/aws_s3_image_folders.png)
+![`s3 buckets logs forldes`](docs/assets/aws_s3_logs_folders.png)
