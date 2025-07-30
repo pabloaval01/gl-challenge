@@ -1,0 +1,991 @@
+Acquiring state lock. This may take a few moments...
+[0m[1mmodule.httpd_asg.data.template_file.user_data: Reading...[0m[0m
+[0m[1mmodule.httpd_asg.data.template_file.user_data: Read complete after 0s [id=45e32b540bc023269dc04878ece50eead418418bd1be8a8d3b245f96f58ffdc9][0m
+[0m[1mmodule.alb_http_to_asg.data.aws_subnet.sub2: Reading...[0m[0m
+[0m[1mdata.aws_vpc.vpc_nfw: Reading...[0m[0m
+[0m[1mmodule.alb_http_to_asg.data.aws_subnet.sub1: Reading...[0m[0m
+[0m[1mmodule.alb_http_to_asg.data.aws_vpc.vpc_nfw: Reading...[0m[0m
+[0m[1mdata.aws_ami.redhat: Reading...[0m[0m
+[0m[1mmodule.alb_http_to_asg.data.aws_subnet.sub2: Read complete after 1s [id=subnet-05aa156cf6143c417][0m
+[0m[1mmodule.alb_http_to_asg.data.aws_subnet.sub1: Read complete after 1s [id=subnet-0e008ec820cb9485f][0m
+[0m[1mdata.aws_ami.redhat: Read complete after 1s [id=ami-0a74a0465cdeea9b3][0m
+[0m[1mmodule.alb_http_to_asg.data.aws_vpc.vpc_nfw: Read complete after 1s [id=vpc-05d7744ec3aade0cb][0m
+[0m[1mdata.aws_vpc.vpc_nfw: Read complete after 1s [id=vpc-05d7744ec3aade0cb][0m
+[0m[1mdata.aws_subnet.sub3: Reading...[0m[0m
+[0m[1mdata.aws_subnet.sub4: Reading...[0m[0m
+[0m[1mdata.aws_subnet.sub3: Read complete after 1s [id=subnet-0dd4f28eb779df644][0m
+[0m[1mdata.aws_subnet.sub4: Read complete after 1s [id=subnet-0ac2889d058fe9f7a][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # module.alb_http_to_asg.aws_lb.http_alb[0m will be created
+[0m  [32m+[0m[0m resource "aws_lb" "http_alb" {
+      [32m+[0m[0m arn                                                          = (known after apply)
+      [32m+[0m[0m arn_suffix                                                   = (known after apply)
+      [32m+[0m[0m client_keep_alive                                            = 3600
+      [32m+[0m[0m desync_mitigation_mode                                       = "defensive"
+      [32m+[0m[0m dns_name                                                     = (known after apply)
+      [32m+[0m[0m drop_invalid_header_fields                                   = false
+      [32m+[0m[0m enable_deletion_protection                                   = false
+      [32m+[0m[0m enable_http2                                                 = true
+      [32m+[0m[0m enable_tls_version_and_cipher_suite_headers                  = false
+      [32m+[0m[0m enable_waf_fail_open                                         = false
+      [32m+[0m[0m enable_xff_client_port                                       = false
+      [32m+[0m[0m enable_zonal_shift                                           = false
+      [32m+[0m[0m enforce_security_group_inbound_rules_on_private_link_traffic = (known after apply)
+      [32m+[0m[0m id                                                           = (known after apply)
+      [32m+[0m[0m idle_timeout                                                 = 60
+      [32m+[0m[0m internal                                                     = false
+      [32m+[0m[0m ip_address_type                                              = (known after apply)
+      [32m+[0m[0m load_balancer_type                                           = "application"
+      [32m+[0m[0m name                                                         = "alb-http"
+      [32m+[0m[0m name_prefix                                                  = (known after apply)
+      [32m+[0m[0m preserve_host_header                                         = false
+      [32m+[0m[0m security_groups                                              = (known after apply)
+      [32m+[0m[0m subnets                                                      = [
+          [32m+[0m[0m "subnet-05aa156cf6143c417",
+          [32m+[0m[0m "subnet-0e008ec820cb9485f",
+        ]
+      [32m+[0m[0m tags                                                         = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all                                                     = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m vpc_id                                                       = (known after apply)
+      [32m+[0m[0m xff_header_processing_mode                                   = "append"
+      [32m+[0m[0m zone_id                                                      = (known after apply)
+
+      [32m+[0m[0m subnet_mapping (known after apply)
+    }
+
+[1m  # module.alb_http_to_asg.aws_lb_listener.http_listener[0m will be created
+[0m  [32m+[0m[0m resource "aws_lb_listener" "http_listener" {
+      [32m+[0m[0m arn                                                                   = (known after apply)
+      [32m+[0m[0m id                                                                    = (known after apply)
+      [32m+[0m[0m load_balancer_arn                                                     = (known after apply)
+      [32m+[0m[0m port                                                                  = 80
+      [32m+[0m[0m protocol                                                              = "HTTP"
+      [32m+[0m[0m routing_http_request_x_amzn_mtls_clientcert_header_name               = (known after apply)
+      [32m+[0m[0m routing_http_request_x_amzn_mtls_clientcert_issuer_header_name        = (known after apply)
+      [32m+[0m[0m routing_http_request_x_amzn_mtls_clientcert_leaf_header_name          = (known after apply)
+      [32m+[0m[0m routing_http_request_x_amzn_mtls_clientcert_serial_number_header_name = (known after apply)
+      [32m+[0m[0m routing_http_request_x_amzn_mtls_clientcert_subject_header_name       = (known after apply)
+      [32m+[0m[0m routing_http_request_x_amzn_mtls_clientcert_validity_header_name      = (known after apply)
+      [32m+[0m[0m routing_http_request_x_amzn_tls_cipher_suite_header_name              = (known after apply)
+      [32m+[0m[0m routing_http_request_x_amzn_tls_version_header_name                   = (known after apply)
+      [32m+[0m[0m routing_http_response_access_control_allow_credentials_header_value   = (known after apply)
+      [32m+[0m[0m routing_http_response_access_control_allow_headers_header_value       = (known after apply)
+      [32m+[0m[0m routing_http_response_access_control_allow_methods_header_value       = (known after apply)
+      [32m+[0m[0m routing_http_response_access_control_allow_origin_header_value        = (known after apply)
+      [32m+[0m[0m routing_http_response_access_control_expose_headers_header_value      = (known after apply)
+      [32m+[0m[0m routing_http_response_access_control_max_age_header_value             = (known after apply)
+      [32m+[0m[0m routing_http_response_content_security_policy_header_value            = (known after apply)
+      [32m+[0m[0m routing_http_response_server_enabled                                  = (known after apply)
+      [32m+[0m[0m routing_http_response_strict_transport_security_header_value          = (known after apply)
+      [32m+[0m[0m routing_http_response_x_content_type_options_header_value             = (known after apply)
+      [32m+[0m[0m routing_http_response_x_frame_options_header_value                    = (known after apply)
+      [32m+[0m[0m ssl_policy                                                            = (known after apply)
+      [32m+[0m[0m tags_all                                                              = (known after apply)
+      [32m+[0m[0m tcp_idle_timeout_seconds                                              = (known after apply)
+
+      [32m+[0m[0m default_action {
+          [32m+[0m[0m order            = (known after apply)
+          [32m+[0m[0m target_group_arn = (known after apply)
+          [32m+[0m[0m type             = "forward"
+        }
+
+      [32m+[0m[0m mutual_authentication (known after apply)
+    }
+
+[1m  # module.alb_http_to_asg.aws_lb_target_group.asg_tg[0m will be created
+[0m  [32m+[0m[0m resource "aws_lb_target_group" "asg_tg" {
+      [32m+[0m[0m arn                                = (known after apply)
+      [32m+[0m[0m arn_suffix                         = (known after apply)
+      [32m+[0m[0m connection_termination             = (known after apply)
+      [32m+[0m[0m deregistration_delay               = "300"
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m ip_address_type                    = (known after apply)
+      [32m+[0m[0m lambda_multi_value_headers_enabled = false
+      [32m+[0m[0m load_balancer_arns                 = (known after apply)
+      [32m+[0m[0m load_balancing_algorithm_type      = (known after apply)
+      [32m+[0m[0m load_balancing_anomaly_mitigation  = (known after apply)
+      [32m+[0m[0m load_balancing_cross_zone_enabled  = (known after apply)
+      [32m+[0m[0m name                               = "alb-asg-tg"
+      [32m+[0m[0m name_prefix                        = (known after apply)
+      [32m+[0m[0m port                               = 443
+      [32m+[0m[0m preserve_client_ip                 = (known after apply)
+      [32m+[0m[0m protocol                           = "HTTPS"
+      [32m+[0m[0m protocol_version                   = (known after apply)
+      [32m+[0m[0m proxy_protocol_v2                  = false
+      [32m+[0m[0m slow_start                         = 0
+      [32m+[0m[0m tags                               = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m target_type                        = "instance"
+      [32m+[0m[0m vpc_id                             = "vpc-05d7744ec3aade0cb"
+
+      [32m+[0m[0m health_check {
+          [32m+[0m[0m enabled             = true
+          [32m+[0m[0m healthy_threshold   = 2
+          [32m+[0m[0m interval            = 30
+          [32m+[0m[0m matcher             = "200-399"
+          [32m+[0m[0m path                = "/"
+          [32m+[0m[0m port                = "443"
+          [32m+[0m[0m protocol            = "HTTPS"
+          [32m+[0m[0m timeout             = 5
+          [32m+[0m[0m unhealthy_threshold = 2
+        }
+
+      [32m+[0m[0m stickiness (known after apply)
+
+      [32m+[0m[0m target_failover (known after apply)
+
+      [32m+[0m[0m target_group_health (known after apply)
+
+      [32m+[0m[0m target_health_state (known after apply)
+    }
+
+[1m  # module.alb_http_to_asg.aws_security_group.alb_sg[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "alb_sg" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "Managed by Terraform"
+      [32m+[0m[0m egress                 = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m from_port        = 0
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "-1"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 0
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m from_port        = 80
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 80
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m name                   = "alb-http-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m vpc_id                 = "vpc-05d7744ec3aade0cb"
+    }
+
+[1m  # module.httpd_asg.aws_autoscaling_group.httpd_asg[0m will be created
+[0m  [32m+[0m[0m resource "aws_autoscaling_group" "httpd_asg" {
+      [32m+[0m[0m arn                              = (known after apply)
+      [32m+[0m[0m availability_zones               = (known after apply)
+      [32m+[0m[0m default_cooldown                 = (known after apply)
+      [32m+[0m[0m desired_capacity                 = 2
+      [32m+[0m[0m force_delete                     = false
+      [32m+[0m[0m force_delete_warm_pool           = false
+      [32m+[0m[0m health_check_grace_period        = 300
+      [32m+[0m[0m health_check_type                = (known after apply)
+      [32m+[0m[0m id                               = (known after apply)
+      [32m+[0m[0m ignore_failed_scaling_activities = false
+      [32m+[0m[0m load_balancers                   = (known after apply)
+      [32m+[0m[0m max_size                         = 6
+      [32m+[0m[0m metrics_granularity              = "1Minute"
+      [32m+[0m[0m min_size                         = 2
+      [32m+[0m[0m name                             = "httpd-asg"
+      [32m+[0m[0m name_prefix                      = (known after apply)
+      [32m+[0m[0m predicted_capacity               = (known after apply)
+      [32m+[0m[0m protect_from_scale_in            = false
+      [32m+[0m[0m service_linked_role_arn          = (known after apply)
+      [32m+[0m[0m target_group_arns                = (known after apply)
+      [32m+[0m[0m vpc_zone_identifier              = [
+          [32m+[0m[0m "subnet-0ac2889d058fe9f7a",
+          [32m+[0m[0m "subnet-0dd4f28eb779df644",
+        ]
+      [32m+[0m[0m wait_for_capacity_timeout        = "10m"
+      [32m+[0m[0m warm_pool_size                   = (known after apply)
+
+      [32m+[0m[0m availability_zone_distribution (known after apply)
+
+      [32m+[0m[0m capacity_reservation_specification (known after apply)
+
+      [32m+[0m[0m launch_template {
+          [32m+[0m[0m id      = (known after apply)
+          [32m+[0m[0m name    = (known after apply)
+          [32m+[0m[0m version = "$Latest"
+        }
+
+      [32m+[0m[0m mixed_instances_policy (known after apply)
+
+      [32m+[0m[0m tag {
+          [32m+[0m[0m key                 = "Environment"
+          [32m+[0m[0m propagate_at_launch = true
+          [32m+[0m[0m value               = "Demo"
+        }
+      [32m+[0m[0m tag {
+          [32m+[0m[0m key                 = "Owner"
+          [32m+[0m[0m propagate_at_launch = true
+          [32m+[0m[0m value               = "Pablo Valentino"
+        }
+      [32m+[0m[0m tag {
+          [32m+[0m[0m key                 = "Project"
+          [32m+[0m[0m propagate_at_launch = true
+          [32m+[0m[0m value               = "GL Challenge"
+        }
+      [32m+[0m[0m tag {
+          [32m+[0m[0m key                 = "Repository"
+          [32m+[0m[0m propagate_at_launch = true
+          [32m+[0m[0m value               = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+        }
+      [32m+[0m[0m tag {
+          [32m+[0m[0m key                 = "Terraform"
+          [32m+[0m[0m propagate_at_launch = true
+          [32m+[0m[0m value               = "True"
+        }
+
+      [32m+[0m[0m traffic_source (known after apply)
+    }
+
+[1m  # module.httpd_asg.aws_key_pair.ec2_redhat_key[0m will be created
+[0m  [32m+[0m[0m resource "aws_key_pair" "ec2_redhat_key" {
+      [32m+[0m[0m arn             = (known after apply)
+      [32m+[0m[0m fingerprint     = (known after apply)
+      [32m+[0m[0m id              = (known after apply)
+      [32m+[0m[0m key_name        = "ec2-asg-redhat-test-keypair"
+      [32m+[0m[0m key_name_prefix = (known after apply)
+      [32m+[0m[0m key_pair_id     = (known after apply)
+      [32m+[0m[0m key_type        = (known after apply)
+      [32m+[0m[0m public_key      = (known after apply)
+      [32m+[0m[0m tags            = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all        = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+    }
+
+[1m  # module.httpd_asg.aws_launch_template.httpd_template[0m will be created
+[0m  [32m+[0m[0m resource "aws_launch_template" "httpd_template" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m default_version        = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m image_id               = "ami-0a74a0465cdeea9b3"
+      [32m+[0m[0m instance_type          = "t2.micro"
+      [32m+[0m[0m key_name               = "ec2-asg-redhat-test-keypair"
+      [32m+[0m[0m latest_version         = (known after apply)
+      [32m+[0m[0m name                   = (known after apply)
+      [32m+[0m[0m name_prefix            = "httpd-launch-template-"
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m user_data              = "IyEvYmluL2Jhc2gKCiMgSW5zdGFsbCBodHRwZCAmIG1vZF9zc2wKeXVtIHVwZGF0ZSAteQp5dW0gaW5zdGFsbCAteSBodHRwZCBtb2Rfc3NsCgpzeXN0ZW1jdGwgZW5hYmxlIGh0dHBkCgojIENvbW1lbnQgdG8gYXZvaWQgY29uZmxpY3RzIGFuZCBkdXBsaWNhdGlvbnMgaW4gdGhlIENGRwpzZWQgLWkgJ3MvXkxpc3RlbiA0NDMvI0xpc3RlbiA0NDMvJyAvZXRjL2h0dHBkL2NvbmYvaHR0cGQuY29uZgoKbWtkaXIgLXAgL2V0Yy9odHRwZC9zc2wKCiMgR2VuZXJhdGUgc2VsZi1zaWduZWQgY2VydGlmaWNhdGUKb3BlbnNzbCByZXEgLXg1MDkgLW5vZGVzIC1kYXlzIDM2NTAgLW5ld2tleSByc2E6MjA0OCBcCiAgLWtleW91dCAvZXRjL2h0dHBkL3NzbC9zZWxmc2lnbmVkLmtleSBcCiAgLW91dCAvZXRjL2h0dHBkL3NzbC9zZWxmc2lnbmVkLmNydCBcCiAgLXN1YmogIi9DPVVTL1NUPVN0YXRlL0w9Q2l0eS9PPU9yZy9PVT1Vbml0L0NOPSQoaG9zdG5hbWUgLWYpIgoKZWNobyAnTG9nRm9ybWF0ICIlaCAlbCAldSAldCBcIiUlclwiICU+cyAlYiBcIiV7UmVmZXJlcn1pXCIgXCIle1VzZXItQWdlbnR9aVwiICUlcCIgY29tYmluZWRfd2l0aF9wb3J0JyA+PiAvZXRjL2h0dHBkL2NvbmYvaHR0cGQuY29uZgoKCgojIENyZWF0ZSBWSG9zdCA0NDMKY2F0ID4gL2V0Yy9odHRwZC9jb25mLmQvdmhvc3RfaHR0cHMuY29uZiA8PEVPRgo8VmlydHVhbEhvc3QgKjo0NDM+CiAgICBEb2N1bWVudFJvb3QgIi92YXIvd3d3L2h0bWwiCiAgICBTZXJ2ZXJOYW1lICQoaG9zdG5hbWUgLWYpCgogICAgU1NMRW5naW5lIG9uCiAgICBTU0xDZXJ0aWZpY2F0ZUZpbGUgL2V0Yy9odHRwZC9zc2wvc2VsZnNpZ25lZC5jcnQKICAgIFNTTENlcnRpZmljYXRlS2V5RmlsZSAvZXRjL2h0dHBkL3NzbC9zZWxmc2lnbmVkLmtleQoKICAgIDxEaXJlY3RvcnkgIi92YXIvd3d3L2h0bWwiPgogICAgICAgIFJlcXVpcmUgYWxsIGdyYW50ZWQKICAgIDwvRGlyZWN0b3J5Pgo8L1ZpcnR1YWxIb3N0PgpFT0YKCiMgQ3JlYXRlIFZIb3N0IDgwCmNhdCA+IC9ldGMvaHR0cGQvY29uZi5kL3Zob3N0X2h0dHAuY29uZiA8PEVPRgo8VmlydHVhbEhvc3QgKjo4MD4KICAgIERvY3VtZW50Um9vdCAiL3Zhci93d3cvaHRtbCIKICAgIFNlcnZlck5hbWUgJChob3N0bmFtZSAtZikKICAgIAogICAgPERpcmVjdG9yeSAiL3Zhci93d3cvaHRtbCI+CiAgICAgICAgUmVxdWlyZSBhbGwgZ3JhbnRlZAogICAgPC9EaXJlY3Rvcnk+CjwvVmlydHVhbEhvc3Q+CkVPRgoKCmVjaG8gIkFwYWNoZSBIVFRQIGFuZCBIVFRQUyBPSyAtICQoaG9zdG5hbWUgLWYpIiA+IC92YXIvd3d3L2h0bWwvaW5kZXguaHRtbAoKc3lzdGVtY3RsIHJlc3RhcnQgaHR0cGQK"
+      [32m+[0m[0m vpc_security_group_ids = (known after apply)
+
+      [32m+[0m[0m block_device_mappings {
+          [32m+[0m[0m device_name = "/dev/xvda"
+
+          [32m+[0m[0m ebs {
+              [32m+[0m[0m iops                       = (known after apply)
+              [32m+[0m[0m throughput                 = (known after apply)
+              [32m+[0m[0m volume_initialization_rate = (known after apply)
+              [32m+[0m[0m volume_size                = 20
+              [32m+[0m[0m volume_type                = "gp2"
+            }
+        }
+
+      [32m+[0m[0m iam_instance_profile {
+          [32m+[0m[0m name = "asg-instance-profile"
+        }
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m tag_specifications {
+          [32m+[0m[0m resource_type = "instance"
+          [32m+[0m[0m tags          = {
+              [32m+[0m[0m "Environment" = "Demo"
+              [32m+[0m[0m "Name"        = "httpd-asg-instance"
+              [32m+[0m[0m "Owner"       = "Pablo Valentino"
+              [32m+[0m[0m "Project"     = "GL Challenge"
+              [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+              [32m+[0m[0m "Terraform"   = "True"
+            }
+        }
+    }
+
+[1m  # module.httpd_asg.aws_security_group.httpd_sg[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "httpd_sg" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "SG para instancias del ASG"
+      [32m+[0m[0m egress                 = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m from_port        = 0
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "-1"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 0
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "0.0.0.0/0",
+                ]
+              [32m+[0m[0m from_port        = 80
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 80
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = [
+                  [32m+[0m[0m "10.1.1.0/24",
+                ]
+              [32m+[0m[0m from_port        = 22
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = []
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 22
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_blocks      = []
+              [32m+[0m[0m from_port        = 443
+              [32m+[0m[0m ipv6_cidr_blocks = []
+              [32m+[0m[0m prefix_list_ids  = []
+              [32m+[0m[0m protocol         = "tcp"
+              [32m+[0m[0m security_groups  = (known after apply)
+              [32m+[0m[0m self             = false
+              [32m+[0m[0m to_port          = 443
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m name                   = "httpd-asg-instance-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m vpc_id                 = "vpc-05d7744ec3aade0cb"
+    }
+
+[1m  # module.httpd_asg.local_file.private_key_pem[0m will be created
+[0m  [32m+[0m[0m resource "local_file" "private_key_pem" {
+      [32m+[0m[0m content              = (sensitive value)
+      [32m+[0m[0m content_base64sha256 = (known after apply)
+      [32m+[0m[0m content_base64sha512 = (known after apply)
+      [32m+[0m[0m content_md5          = (known after apply)
+      [32m+[0m[0m content_sha1         = (known after apply)
+      [32m+[0m[0m content_sha256       = (known after apply)
+      [32m+[0m[0m content_sha512       = (known after apply)
+      [32m+[0m[0m directory_permission = "0777"
+      [32m+[0m[0m file_permission      = "0400"
+      [32m+[0m[0m filename             = "modules/httpd_asg/ec2-asg-redhat-test-keypair.pem"
+      [32m+[0m[0m id                   = (known after apply)
+    }
+
+[1m  # module.httpd_asg.tls_private_key.ssh_key[0m will be created
+[0m  [32m+[0m[0m resource "tls_private_key" "ssh_key" {
+      [32m+[0m[0m algorithm                     = "RSA"
+      [32m+[0m[0m ecdsa_curve                   = "P224"
+      [32m+[0m[0m id                            = (known after apply)
+      [32m+[0m[0m private_key_openssh           = (sensitive value)
+      [32m+[0m[0m private_key_pem               = (sensitive value)
+      [32m+[0m[0m private_key_pem_pkcs8         = (sensitive value)
+      [32m+[0m[0m public_key_fingerprint_md5    = (known after apply)
+      [32m+[0m[0m public_key_fingerprint_sha256 = (known after apply)
+      [32m+[0m[0m public_key_openssh            = (known after apply)
+      [32m+[0m[0m public_key_pem                = (known after apply)
+      [32m+[0m[0m rsa_bits                      = 4096
+    }
+
+[1m  # module.iam_asg_role.aws_iam_instance_profile.asg_instance_profile[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_instance_profile" "asg_instance_profile" {
+      [32m+[0m[0m arn         = (known after apply)
+      [32m+[0m[0m create_date = (known after apply)
+      [32m+[0m[0m id          = (known after apply)
+      [32m+[0m[0m name        = "asg-instance-profile"
+      [32m+[0m[0m name_prefix = (known after apply)
+      [32m+[0m[0m path        = "/"
+      [32m+[0m[0m role        = "asg-consolidated-role"
+      [32m+[0m[0m tags        = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all    = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m unique_id   = (known after apply)
+    }
+
+[1m  # module.iam_asg_role.aws_iam_policy.policy_images[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "policy_images" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "asg-s3-read-policy-images"
+      [32m+[0m[0m name_prefix      = (known after apply)
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = (known after apply)
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+    }
+
+[1m  # module.iam_asg_role.aws_iam_policy.policy_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_policy" "policy_logs" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m attachment_count = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "asg-s3-write-policy-logs"
+      [32m+[0m[0m name_prefix      = (known after apply)
+      [32m+[0m[0m path             = "/"
+      [32m+[0m[0m policy           = (known after apply)
+      [32m+[0m[0m policy_id        = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+    }
+
+[1m  # module.iam_asg_role.aws_iam_role.asg_role[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role" "asg_role" {
+      [32m+[0m[0m arn                   = (known after apply)
+      [32m+[0m[0m assume_role_policy    = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "sts:AssumeRole"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = {
+                          [32m+[0m[0m Service = "ec2.amazonaws.com"
+                        }
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m create_date           = (known after apply)
+      [32m+[0m[0m force_detach_policies = false
+      [32m+[0m[0m id                    = (known after apply)
+      [32m+[0m[0m managed_policy_arns   = (known after apply)
+      [32m+[0m[0m max_session_duration  = 3600
+      [32m+[0m[0m name                  = "asg-consolidated-role"
+      [32m+[0m[0m name_prefix           = (known after apply)
+      [32m+[0m[0m path                  = "/"
+      [32m+[0m[0m tags                  = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all              = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m unique_id             = (known after apply)
+
+      [32m+[0m[0m inline_policy (known after apply)
+    }
+
+[1m  # module.iam_asg_role.aws_iam_role_policy_attachment.attach_images[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "attach_images" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = "asg-consolidated-role"
+    }
+
+[1m  # module.iam_asg_role.aws_iam_role_policy_attachment.attach_logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_iam_role_policy_attachment" "attach_logs" {
+      [32m+[0m[0m id         = (known after apply)
+      [32m+[0m[0m policy_arn = (known after apply)
+      [32m+[0m[0m role       = "asg-consolidated-role"
+    }
+
+[1m  # module.s3_images_bucket.aws_s3_bucket.images[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket" "images" {
+      [32m+[0m[0m acceleration_status         = (known after apply)
+      [32m+[0m[0m acl                         = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m bucket                      = (known after apply)
+      [32m+[0m[0m bucket_domain_name          = (known after apply)
+      [32m+[0m[0m bucket_prefix               = (known after apply)
+      [32m+[0m[0m bucket_regional_domain_name = (known after apply)
+      [32m+[0m[0m force_destroy               = false
+      [32m+[0m[0m hosted_zone_id              = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m object_lock_enabled         = (known after apply)
+      [32m+[0m[0m policy                      = (known after apply)
+      [32m+[0m[0m region                      = (known after apply)
+      [32m+[0m[0m request_payer               = (known after apply)
+      [32m+[0m[0m tags                        = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m website_domain              = (known after apply)
+      [32m+[0m[0m website_endpoint            = (known after apply)
+
+      [32m+[0m[0m cors_rule (known after apply)
+
+      [32m+[0m[0m grant (known after apply)
+
+      [32m+[0m[0m lifecycle_rule (known after apply)
+
+      [32m+[0m[0m logging (known after apply)
+
+      [32m+[0m[0m object_lock_configuration (known after apply)
+
+      [32m+[0m[0m replication_configuration (known after apply)
+
+      [32m+[0m[0m server_side_encryption_configuration (known after apply)
+
+      [32m+[0m[0m versioning (known after apply)
+
+      [32m+[0m[0m website (known after apply)
+    }
+
+[1m  # module.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_lifecycle_configuration" "images_lifecycle" {
+      [32m+[0m[0m bucket                                 = (known after apply)
+      [32m+[0m[0m expected_bucket_owner                  = (known after apply)
+      [32m+[0m[0m id                                     = (known after apply)
+      [32m+[0m[0m transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      [32m+[0m[0m rule {
+          [32m+[0m[0m id     = "memes-to-glacier"
+          [32m+[0m[0m status = "Enabled"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+
+          [32m+[0m[0m filter {
+              [32m+[0m[0m prefix = "archive/Memes/"
+            }
+
+          [32m+[0m[0m transition {
+              [32m+[0m[0m days          = 90
+              [32m+[0m[0m storage_class = "GLACIER"
+            }
+        }
+    }
+
+[1m  # module.s3_images_bucket.aws_s3_bucket_versioning.images_versioning[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_versioning" "images_versioning" {
+      [32m+[0m[0m bucket = (known after apply)
+      [32m+[0m[0m id     = (known after apply)
+
+      [32m+[0m[0m versioning_configuration {
+          [32m+[0m[0m mfa_delete = (known after apply)
+          [32m+[0m[0m status     = "Enabled"
+        }
+    }
+
+[1m  # module.s3_images_bucket.aws_s3_object.memes_folder[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_object" "memes_folder" {
+      [32m+[0m[0m acl                    = (known after apply)
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m bucket                 = (known after apply)
+      [32m+[0m[0m bucket_key_enabled     = (known after apply)
+      [32m+[0m[0m checksum_crc32         = (known after apply)
+      [32m+[0m[0m checksum_crc32c        = (known after apply)
+      [32m+[0m[0m checksum_crc64nvme     = (known after apply)
+      [32m+[0m[0m checksum_sha1          = (known after apply)
+      [32m+[0m[0m checksum_sha256        = (known after apply)
+      [32m+[0m[0m content_type           = (known after apply)
+      [32m+[0m[0m etag                   = (known after apply)
+      [32m+[0m[0m force_destroy          = false
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m key                    = "archive/Memes/"
+      [32m+[0m[0m kms_key_id             = (known after apply)
+      [32m+[0m[0m server_side_encryption = (known after apply)
+      [32m+[0m[0m storage_class          = (known after apply)
+      [32m+[0m[0m tags_all               = (known after apply)
+      [32m+[0m[0m version_id             = (known after apply)
+        [90m# (1 unchanged attribute hidden)[0m[0m
+    }
+
+[1m  # module.s3_images_bucket.random_integer.bucket_suffix[0m will be created
+[0m  [32m+[0m[0m resource "random_integer" "bucket_suffix" {
+      [32m+[0m[0m id     = (known after apply)
+      [32m+[0m[0m max    = 99999
+      [32m+[0m[0m min    = 10000
+      [32m+[0m[0m result = (known after apply)
+    }
+
+[1m  # module.s3_log_bucket.aws_s3_bucket.logs[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket" "logs" {
+      [32m+[0m[0m acceleration_status         = (known after apply)
+      [32m+[0m[0m acl                         = (known after apply)
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m bucket                      = (known after apply)
+      [32m+[0m[0m bucket_domain_name          = (known after apply)
+      [32m+[0m[0m bucket_prefix               = (known after apply)
+      [32m+[0m[0m bucket_regional_domain_name = (known after apply)
+      [32m+[0m[0m force_destroy               = false
+      [32m+[0m[0m hosted_zone_id              = (known after apply)
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m object_lock_enabled         = (known after apply)
+      [32m+[0m[0m policy                      = (known after apply)
+      [32m+[0m[0m region                      = (known after apply)
+      [32m+[0m[0m request_payer               = (known after apply)
+      [32m+[0m[0m tags                        = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "Environment" = "Demo"
+          [32m+[0m[0m "Owner"       = "Pablo Valentino"
+          [32m+[0m[0m "Project"     = "GL Challenge"
+          [32m+[0m[0m "Repository"  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+          [32m+[0m[0m "Terraform"   = "True"
+        }
+      [32m+[0m[0m website_domain              = (known after apply)
+      [32m+[0m[0m website_endpoint            = (known after apply)
+
+      [32m+[0m[0m cors_rule (known after apply)
+
+      [32m+[0m[0m grant (known after apply)
+
+      [32m+[0m[0m lifecycle_rule (known after apply)
+
+      [32m+[0m[0m logging (known after apply)
+
+      [32m+[0m[0m object_lock_configuration (known after apply)
+
+      [32m+[0m[0m replication_configuration (known after apply)
+
+      [32m+[0m[0m server_side_encryption_configuration (known after apply)
+
+      [32m+[0m[0m versioning (known after apply)
+
+      [32m+[0m[0m website (known after apply)
+    }
+
+[1m  # module.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_lifecycle_configuration" "logs_lifecycle" {
+      [32m+[0m[0m bucket                                 = (known after apply)
+      [32m+[0m[0m expected_bucket_owner                  = (known after apply)
+      [32m+[0m[0m id                                     = (known after apply)
+      [32m+[0m[0m transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      [32m+[0m[0m rule {
+          [32m+[0m[0m id     = "active-to-glacier"
+          [32m+[0m[0m status = "Enabled"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+
+          [32m+[0m[0m filter {
+              [32m+[0m[0m prefix = "active/"
+            }
+
+          [32m+[0m[0m transition {
+              [32m+[0m[0m days          = 90
+              [32m+[0m[0m storage_class = "GLACIER"
+            }
+        }
+      [32m+[0m[0m rule {
+          [32m+[0m[0m id     = "inactive-delete"
+          [32m+[0m[0m status = "Enabled"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+
+          [32m+[0m[0m expiration {
+              [32m+[0m[0m days                         = 90
+              [32m+[0m[0m expired_object_delete_marker = false
+            }
+
+          [32m+[0m[0m filter {
+              [32m+[0m[0m prefix = "inactive/"
+            }
+        }
+    }
+
+[1m  # module.s3_log_bucket.aws_s3_bucket_versioning.logs_versioning[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_versioning" "logs_versioning" {
+      [32m+[0m[0m bucket = (known after apply)
+      [32m+[0m[0m id     = (known after apply)
+
+      [32m+[0m[0m versioning_configuration {
+          [32m+[0m[0m mfa_delete = (known after apply)
+          [32m+[0m[0m status     = "Enabled"
+        }
+    }
+
+[1m  # module.s3_log_bucket.aws_s3_object.active_folder[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_object" "active_folder" {
+      [32m+[0m[0m acl                    = (known after apply)
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m bucket                 = (known after apply)
+      [32m+[0m[0m bucket_key_enabled     = (known after apply)
+      [32m+[0m[0m checksum_crc32         = (known after apply)
+      [32m+[0m[0m checksum_crc32c        = (known after apply)
+      [32m+[0m[0m checksum_crc64nvme     = (known after apply)
+      [32m+[0m[0m checksum_sha1          = (known after apply)
+      [32m+[0m[0m checksum_sha256        = (known after apply)
+      [32m+[0m[0m content_type           = (known after apply)
+      [32m+[0m[0m etag                   = (known after apply)
+      [32m+[0m[0m force_destroy          = false
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m key                    = "active/"
+      [32m+[0m[0m kms_key_id             = (known after apply)
+      [32m+[0m[0m server_side_encryption = (known after apply)
+      [32m+[0m[0m storage_class          = (known after apply)
+      [32m+[0m[0m tags_all               = (known after apply)
+      [32m+[0m[0m version_id             = (known after apply)
+        [90m# (1 unchanged attribute hidden)[0m[0m
+    }
+
+[1m  # module.s3_log_bucket.aws_s3_object.inactive_folder[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_object" "inactive_folder" {
+      [32m+[0m[0m acl                    = (known after apply)
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m bucket                 = (known after apply)
+      [32m+[0m[0m bucket_key_enabled     = (known after apply)
+      [32m+[0m[0m checksum_crc32         = (known after apply)
+      [32m+[0m[0m checksum_crc32c        = (known after apply)
+      [32m+[0m[0m checksum_crc64nvme     = (known after apply)
+      [32m+[0m[0m checksum_sha1          = (known after apply)
+      [32m+[0m[0m checksum_sha256        = (known after apply)
+      [32m+[0m[0m content_type           = (known after apply)
+      [32m+[0m[0m etag                   = (known after apply)
+      [32m+[0m[0m force_destroy          = false
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m key                    = "inactive/"
+      [32m+[0m[0m kms_key_id             = (known after apply)
+      [32m+[0m[0m server_side_encryption = (known after apply)
+      [32m+[0m[0m storage_class          = (known after apply)
+      [32m+[0m[0m tags_all               = (known after apply)
+      [32m+[0m[0m version_id             = (known after apply)
+        [90m# (1 unchanged attribute hidden)[0m[0m
+    }
+
+[1m  # module.s3_log_bucket.random_integer.bucket_suffix[0m will be created
+[0m  [32m+[0m[0m resource "random_integer" "bucket_suffix" {
+      [32m+[0m[0m id     = (known after apply)
+      [32m+[0m[0m max    = 99999
+      [32m+[0m[0m min    = 10000
+      [32m+[0m[0m result = (known after apply)
+    }
+
+[1mPlan:[0m 27 to add, 0 to change, 0 to destroy.
+[0m[0m[1mmodule.httpd_asg.tls_private_key.ssh_key: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.random_integer.bucket_suffix: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.random_integer.bucket_suffix: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.random_integer.bucket_suffix: Creation complete after 0s [id=92521][0m
+[0m[1mmodule.s3_images_bucket.random_integer.bucket_suffix: Creation complete after 0s [id=47732][0m
+[0m[1mmodule.iam_asg_role.aws_iam_role.asg_role: Creating...[0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb_target_group.asg_tg: Creating...[0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_security_group.alb_sg: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket.images: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket.logs: Creating...[0m[0m
+[0m[1mmodule.httpd_asg.tls_private_key.ssh_key: Creation complete after 2s [id=8d8341679807a9570b99dc1710d82a35b08da8b2][0m
+[0m[1mmodule.httpd_asg.aws_key_pair.ec2_redhat_key: Creating...[0m[0m
+[0m[1mmodule.httpd_asg.local_file.private_key_pem: Creating...[0m[0m
+[0m[1mmodule.httpd_asg.local_file.private_key_pem: Creation complete after 0s [id=297049bdf8850583fba9de1cc720b332cb4d96bf][0m
+[0m[1mmodule.iam_asg_role.aws_iam_role.asg_role: Creation complete after 1s [id=asg-consolidated-role][0m
+[0m[1mmodule.iam_asg_role.aws_iam_instance_profile.asg_instance_profile: Creating...[0m[0m
+[0m[1mmodule.httpd_asg.aws_key_pair.ec2_redhat_key: Creation complete after 0s [id=ec2-asg-redhat-test-keypair][0m
+[0m[1mmodule.alb_http_to_asg.aws_lb_target_group.asg_tg: Creation complete after 2s [id=arn:aws:elasticloadbalancing:us-east-1:896239730436:targetgroup/alb-asg-tg/072aedd671dbfcb1][0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket.images: Creation complete after 4s [id=images-47732][0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_versioning.images_versioning: Creating...[0m[0m
+[0m[1mmodule.iam_asg_role.aws_iam_policy.policy_images: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_object.memes_folder: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket.logs: Creation complete after 4s [id=logs-92521][0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_versioning.logs_versioning: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_object.active_folder: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_object.inactive_folder: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle: Creating...[0m[0m
+[0m[1mmodule.iam_asg_role.aws_iam_policy.policy_images: Creation complete after 0s [id=arn:aws:iam::896239730436:policy/asg-s3-read-policy-images][0m
+[0m[1mmodule.iam_asg_role.aws_iam_role_policy_attachment.attach_images: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_object.memes_folder: Creation complete after 0s [id=archive/Memes/][0m
+[0m[1mmodule.iam_asg_role.aws_iam_policy.policy_logs: Creating...[0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_security_group.alb_sg: Creation complete after 4s [id=sg-0a175bda764608b33][0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_object.active_folder: Creation complete after 1s [id=active/][0m
+[0m[1mmodule.httpd_asg.aws_security_group.httpd_sg: Creating...[0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_object.inactive_folder: Creation complete after 1s [id=inactive/][0m
+[0m[1mmodule.iam_asg_role.aws_iam_role_policy_attachment.attach_images: Creation complete after 1s [id=asg-consolidated-role-20250730220254513200000001][0m
+[0m[1mmodule.iam_asg_role.aws_iam_policy.policy_logs: Creation complete after 1s [id=arn:aws:iam::896239730436:policy/asg-s3-write-policy-logs][0m
+[0m[1mmodule.iam_asg_role.aws_iam_role_policy_attachment.attach_logs: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_versioning.images_versioning: Creation complete after 2s [id=images-47732][0m
+[0m[1mmodule.iam_asg_role.aws_iam_role_policy_attachment.attach_logs: Creation complete after 1s [id=asg-consolidated-role-20250730220255528400000002][0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_versioning.logs_versioning: Creation complete after 2s [id=logs-92521][0m
+[0m[1mmodule.iam_asg_role.aws_iam_instance_profile.asg_instance_profile: Creation complete after 7s [id=asg-instance-profile][0m
+[0m[1mmodule.httpd_asg.aws_security_group.httpd_sg: Creation complete after 3s [id=sg-03e6c8a79e2289eb4][0m
+[0m[1mmodule.httpd_asg.aws_launch_template.httpd_template: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.httpd_asg.aws_launch_template.httpd_template: Creation complete after 7s [id=lt-0221f2b9dc4b414d6][0m
+[0m[1mmodule.httpd_asg.aws_autoscaling_group.httpd_asg: Creating...[0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [00m20s elapsed][0m[0m
+[0m[1mmodule.httpd_asg.aws_autoscaling_group.httpd_asg: Still creating... [00m10s elapsed][0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle: Still creating... [00m31s elapsed][0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle: Still creating... [00m31s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [00m32s elapsed][0m[0m
+[0m[1mmodule.httpd_asg.aws_autoscaling_group.httpd_asg: Still creating... [00m21s elapsed][0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle: Still creating... [00m41s elapsed][0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle: Still creating... [00m41s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [00m42s elapsed][0m[0m
+[0m[1mmodule.httpd_asg.aws_autoscaling_group.httpd_asg: Still creating... [00m31s elapsed][0m[0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle: Still creating... [00m51s elapsed][0m[0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle: Still creating... [00m51s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [00m52s elapsed][0m[0m
+[0m[1mmodule.httpd_asg.aws_autoscaling_group.httpd_asg: Still creating... [00m41s elapsed][0m[0m
+[0m[1mmodule.httpd_asg.aws_autoscaling_group.httpd_asg: Creation complete after 42s [id=httpd-asg][0m
+[0m[1mmodule.s3_log_bucket.aws_s3_bucket_lifecycle_configuration.logs_lifecycle: Creation complete after 1m0s [id=logs-92521][0m
+[0m[1mmodule.s3_images_bucket.aws_s3_bucket_lifecycle_configuration.images_lifecycle: Creation complete after 1m0s [id=images-47732][0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [01m03s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [01m13s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [01m23s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [01m34s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [01m44s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [01m54s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [02m05s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [02m15s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [02m25s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [02m36s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [02m46s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Still creating... [02m56s elapsed][0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb.http_alb: Creation complete after 3m1s [id=arn:aws:elasticloadbalancing:us-east-1:896239730436:loadbalancer/app/alb-http/0fc9d8544cce3013][0m
+[0m[1mmodule.alb_http_to_asg.aws_lb_listener.http_listener: Creating...[0m[0m
+[0m[1mmodule.alb_http_to_asg.aws_lb_listener.http_listener: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-east-1:896239730436:listener/app/alb-http/0fc9d8544cce3013/c0cd9e054418c71d][0m
+[0m[1m[32m
+Apply complete! Resources: 27 added, 0 changed, 0 destroyed.
+[0m

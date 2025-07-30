@@ -5,6 +5,6 @@ tags = {
   Owner       = "Pablo Valentino"
   Project     = "GL Challenge"
   Terraform   = "True"
-  Repository  = "https://github.com/pabloaval01/gl-challenge/tree/main/VPC"
+  Repository  = "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
 }
 
