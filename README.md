@@ -84,7 +84,7 @@ This script is **NOT part of the requirements**, but is included to initialize t
 
 To deploy it, clone the repository and position yourself in the “Bootstrap” folder.
 
-![Bootstrap folder](Docs/Assets/folder_bootstrap.png)
+![Bootstrap folder](docs/assets/folder_bootstrap.png)
 
 ```bash
 cd Bootstrap/
@@ -103,7 +103,7 @@ This deployment should be the first in the chain and should be done independentl
 
 To deploy it, clone the repository and position yourself in the “VPC” folder.
 
-![VPC folder](Docs/Assets/folder_vpc.png)
+![VPC folder](docs/assets/folder_vpc.png)
 
 ```bash
 cd VPC/
@@ -122,7 +122,7 @@ This deployment is based on the public Coalfire module [`terraform-aws-ec2`](htt
 
 To deploy it, clone the repository and position yourself in the “EC2” folder.
 
-![EC2 folder](Docs/Assets/folder_ec2.png)
+![EC2 folder](docs/assets/folder_ec2.png)
 
 ```bash
 cd EC2/
@@ -133,7 +133,7 @@ terraform apply
 
 > This deployment generates a unique keypair that allows access to the instance via SSH. The template logic is designed to place the `.pem` file in the local folder of the deployment module. It should be moved to a secure vault (you can use Secrets Manager).
 
-![EC2 folder](Docs/Assets/folder_ec2_pemfile.png)
+![EC2 folder](docs/assets/folder_ec2_pemfile.png)
 
 ---
 
@@ -153,7 +153,7 @@ This project implements multiple resources that fully meet the requested require
 
 To deploy it, clone the repository and position yourself in the “HTTPD_ASG” folder.
 
-![EC2 folder](Docs/Assets/folder_httpd_asg.png)
+![EC2 folder](docs/assets/folder_httpd_asg.png)
 
 ```bash
 cd EC2/
