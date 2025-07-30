@@ -9,8 +9,6 @@ module "vpc_nfw" {
   private_subnets           = var.private_subnets
   private_subnet_tags       = var.private_subnet_tags
 
-
-
   enable_nat_gateway   = true
   single_nat_gateway   = true
   enable_dns_hostnames = true
