@@ -96,7 +96,7 @@ chmod +x bootstrap.sh
 
 ## VPC
 
-- The VPC module is based on the public Coalfire module [`terraform-aws-vpc-nfw`](https://github.com/Coalfire-CF/terraform-aws-vpc-nfw), which meets all the requirements of the challenge.
+The VPC module is based on the public Coalfire module [`terraform-aws-vpc-nfw`](https://github.com/Coalfire-CF/terraform-aws-vpc-nfw), which meets all the requirements of the challenge.
 This deployment should be the first in the chain and should be done independently, following good infrastructure practices, as it is recommended that the VPC remain active even if other resources are deleted or recreated. 
 
 ### Execution steps
@@ -116,7 +116,7 @@ terraform apply
 
 ## EC2 Instance
 
-- This deployment is based on the public Coalfire module [`terraform-aws-ec2`](https://github.com/Coalfire-CF/terraform-aws-ec2). It runs independently since the challenge interpretation assumes that this instance has no direct influence on the other deployments, so it can be used for any other purpose, such as being a bastion host to access other instances.
+This deployment is based on the public Coalfire module [`terraform-aws-ec2`](https://github.com/Coalfire-CF/terraform-aws-ec2). It runs independently since the challenge interpretation assumes that this instance has no direct influence on the other deployments, so it can be used for any other purpose, such as being a bastion host to access other instances.
 
 ### Execution steps
 
@@ -139,7 +139,7 @@ terraform apply
 
 ## HTTPD_ASG
 
-- This project implements multiple resources that fully meet the requested requirements. It is modularized to maintain code reusability, scalability, and clarity.
+This project implements multiple resources that fully meet the requested requirements. It is modularized to maintain code reusability, scalability, and clarity.
 
 - Main objectives:
     - Create an Auto Scaling Group (ASG) distributed across private subnets. Distribute instances across subnets sub3 and sub4.
@@ -202,11 +202,16 @@ This same VPC can be used for future projects that need to coexist with the comp
 
 This improvement plan aims to list opportunities to optimize the security, maintainability, scalability, and observability of this project. A series of prioritized actions are proposed to strengthen the design.
 
+- Replace the use of PEM keys with Session Manager.
+- Create custom images that include a hardening plan.
+- Store the PEM file in a secure location; it can be stored in Secrets Manager or SSM Parameter Store.
+- Reuse S3 modules. Two different modules are currently used to create buckets. A customizable module can be created using variables.
 
 
-## Operational Gaps
+## Analysis of Operational Gaps
 
-- ❌ Acceso a EC2 via PEM inseguro, puerto 22 abierto
-- ❌ No se usa Session Manager ni bóveda segura
-- 📉 No se instala CloudWatch Agent ni se definen Log Groups
-- 🔐 IAM Policies están en cada módulo, no centralizadas
+- Access to EC2 instances: Currently relies on an insecurely stored locally PEM certificate, in addition to having to open port 22 in the Security Group ingress rules. SSM is not used to access instances without relying on the certificate, nor is a secure access PEM storage solution orchestrated.
+
+- Lack of active monitoring and alerting: The Cloudwatch agent is not installed, and Log Groups are not defined to send metrics to CloudWatch. Therefore, any issues may go unnoticed due to the lack of the necessary agents and Log Groups.
+
+- IAM policies are being defined within each module, rather than centralized in a specific module that manages policy deployment and control in a unified manner. This makes it difficult to maintain and scale permissions as the infrastructure grows.
