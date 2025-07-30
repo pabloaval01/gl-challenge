@@ -293,7 +293,7 @@ aws ec2 describe-volumes \
 
 ![`ASG`](docs/assets/asg.png):
 
-ASG Subnets:
+<u>ASG Subnets:<u>
 
 ```bash
 aws autoscaling describe-auto-scaling-groups \
@@ -320,7 +320,7 @@ aws ec2 describe-subnets \
 +-------------------------------+----------------------------+
 ```
 
-Provisioned Instances:
+<u>Provisioned Instances:<u>
 
 ```bash
 aws ec2 describe-launch-template-versions \
@@ -358,7 +358,7 @@ aws ec2 describe-images \
 Red Hat Enterprise Linux
 ```
 
-User-data script to install httpd on instances:
+<u>User-data script to install httpd on instances:<u>
 
 ```bash
  aws ec2 describe-launch-template-versions \     --launch-template-id lt-0221f2b9dc4b414d6 \
@@ -423,7 +423,7 @@ echo "Apache HTTP and HTTPS OK - $(hostname -f)" > /var/www/html/index.html
 systemctl restart httpd
 ```
 
-IAM Role:
+<u>IAM Role:<u>
 
 ```bash
 aws iam get-role --role-name asg-consolidated-role
@@ -477,7 +477,7 @@ aws iam get-role --role-name asg-consolidated-role
 }
 ```
 
-Instance Profile:
+<u>Instance Profile:<u>
 
 ```bash
 #Instance Profile used in the Launch Template
@@ -501,7 +501,7 @@ aws iam get-instance-profile \
   --output text
 ```
 
-asg-consolidated-role
+<u>asg-consolidated-role<u>
 
 ```bash
 #InstanceProfile attached to the Launch Template
@@ -519,3 +519,7 @@ aws ec2 describe-launch-template-versions \
     "Name": "asg-instance-profile"
 }
 ```
+
+<u>S3 Buckets:<u>
+
+
