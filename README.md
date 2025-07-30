@@ -291,6 +291,8 @@ aws ec2 describe-volumes \
 ```
 # Httpd Autoscalling
 
+![`ASG`](docs/assets/asg.png):
+
 ASG Subnets:
 
 ```bash
@@ -317,3 +319,107 @@ aws ec2 describe-subnets \
 |  vpc-nfw-private-b-us-east-1b |  subnet-0ac2889d058fe9f7a  |
 +-------------------------------+----------------------------+
 ```
+
+Provisioned Instances:
+
+```bash
+aws ec2 describe-launch-template-versions \
+  --launch-template-id lt-0221f2b9dc4b414d6 \
+  --versions 1 \
+  --query "LaunchTemplateVersions[0].LaunchTemplateData.{InstanceType:InstanceType, StorageSize:BlockDeviceMappings[0].Ebs.VolumeSize}" \
+  --output table
+
+---------------------------------
+|DescribeLaunchTemplateVersions |
++---------------+---------------+
+| InstanceType  |  StorageSize  |
++---------------+---------------+
+|  t2.micro     |  20           |
++---------------+---------------+
+```
+
+```bash
+ec2 describe-launch-template-versions \
+  --launch-template-id lt-0221f2b9dc4b414d6 \
+  --versions 1 \
+  --query "LaunchTemplateVersions[0].LaunchTemplateData.ImageId" \
+  --output text
+
+ami-0a74a0465cdeea9b3
+```
+
+SO Running:
+```bash
+aws ec2 describe-images \ 
+    --image-ids ami-0a74a0465cdeea9b3 \
+    --query 'Images[0].PlatformDetails' \
+    --output text
+
+Red Hat Enterprise Linux
+```
+
+User-data script to install httpd on instances:
+
+```bash
+ aws ec2 describe-launch-template-versions \     --launch-template-id lt-0221f2b9dc4b414d6 \
+  --versions 1 \
+  --query "LaunchTemplateVersions[0].LaunchTemplateData.UserData" \
+  --output text | base64 --decode
+
+#!/bin/bash
+
+# Install httpd & mod_ssl
+yum update -y
+yum install -y httpd mod_ssl
+
+systemctl enable httpd
+
+# Comment to avoid conflicts and duplications in the CFG
+sed -i 's/^Listen 443/#Listen 443/' /etc/httpd/conf/httpd.conf
+
+mkdir -p /etc/httpd/ssl
+
+# Generate self-signed certificate
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+  -keyout /etc/httpd/ssl/selfsigned.key \
+  -out /etc/httpd/ssl/selfsigned.crt \
+  -subj "/C=US/ST=State/L=City/O=Org/OU=Unit/CN=$(hostname -f)"
+
+echo 'LogFormat "%h %l %u %t \"%%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %%p" combined_with_port' >> /etc/httpd/conf/httpd.conf
+
+
+
+# Create VHost 443
+cat > /etc/httpd/conf.d/vhost_https.conf <<EOF
+<VirtualHost *:443>
+    DocumentRoot "/var/www/html"
+    ServerName $(hostname -f)
+
+    SSLEngine on
+    SSLCertificateFile /etc/httpd/ssl/selfsigned.crt
+    SSLCertificateKeyFile /etc/httpd/ssl/selfsigned.key
+
+    <Directory "/var/www/html">
+        Require all granted
+    </Directory>
+</VirtualHost>
+EOF
+
+# Create VHost 80
+cat > /etc/httpd/conf.d/vhost_http.conf <<EOF
+<VirtualHost *:80>
+    DocumentRoot "/var/www/html"
+    ServerName $(hostname -f)
+
+    <Directory "/var/www/html">
+        Require all granted
+    </Directory>
+</VirtualHost>
+EOF
+
+
+echo "Apache HTTP and HTTPS OK - $(hostname -f)" > /var/www/html/index.html
+
+systemctl restart httpd
+```
+
