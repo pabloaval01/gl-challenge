@@ -84,12 +84,13 @@ This script is **NOT part of the requirements**, but is included to initialize t
 
 To deploy it, clone the repository and position yourself in the “Bootstrap” folder.
 
+![Bootstrap folder](Docs/assets/Bootstrap_folder.png)
+
 ```bash
 cd Bootstrap/
 chmod +x bootstrap.sh
 ./bootstrap.sh
 ```
-![Bootstrap folder](Docs/assets/Bootstrap_folder.png)
 
 ---
 
