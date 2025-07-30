@@ -84,7 +84,7 @@ This script is **NOT part of the requirements**, but is included to initialize t
 
 To deploy it, clone the repository and position yourself in the “Bootstrap” folder.
 
-![Bootstrap folder](Docs/assets/Bootstrap_folder.png)
+![Bootstrap folder](Docs/Assets/bootstrap_folder.png)
 
 ```bash
 cd Bootstrap/
