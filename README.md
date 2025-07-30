@@ -523,8 +523,10 @@ aws ec2 describe-launch-template-versions \
 ### S3 Buckets:
 
 Buckets present in the account:
-![`s3 buckets`](docs/assets/aws_s3.png):
+![`s3 buckets`](docs/assets/aws_s3.png)
 
 Folders created:
+
 ![`s3 buckets image folders`](docs/assets/aws_s3_image_folders.png)
+
 ![`s3 buckets logs forldes`](docs/assets/aws_s3_logs_folders.png)
