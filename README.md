@@ -94,11 +94,16 @@ chmod +x bootstrap.sh
 
 ---
 
-## 🧪 VPC
+## VPC
 
-- Basado en módulo público Coalfire [`terraform-aws-vpc-nfw`](https://github.com/Coalfire-CF/terraform-aws-vpc-nfw)
+- The VPC module is based on the public Coalfire module [`terraform-aws-vpc-nfw`](https://github.com/Coalfire-CF/terraform-aws-vpc-nfw), which meets all the requirements of the challenge.
+This deployment should be the first in the chain and should be done independently, following good infrastructure practices, as it is recommended that the VPC remain active even if other resources are deleted or recreated. 
 
-### Comandos
+### Execution steps
+
+To deploy it, clone the repository and position yourself in the “VPC” folder.
+
+![VPC folder](Docs/Assets/folder_vpc.png)
 
 ```bash
 cd VPC/
@@ -107,16 +112,17 @@ terraform plan
 terraform apply
 ```
 
-> Despliegue **independiente**, manteniendo la VPC activa aunque otros recursos se eliminen.
-
 ---
 
-## 🧪 EC2 Instance
+## EC2 Instance
 
-- Despliegue independiente
-- Usada potencialmente como **bastion host**
+- This deployment is based on the public Coalfire module [`terraform-aws-ec2`](https://github.com/Coalfire-CF/terraform-aws-ec2). It runs independently since the challenge interpretation assumes that this instance has no direct influence on the other deployments, so it can be used for any other purpose, such as being a bastion host to access other instances.
 
-### Comandos
+### Execution steps
+
+To deploy it, clone the repository and position yourself in the “EC2” folder.
+
+![EC2 folder](Docs/Assets/folder_ec2.png)
 
 ```bash
 cd EC2/
@@ -125,15 +131,29 @@ terraform plan
 terraform apply
 ```
 
-> Se genera un keypair que deja el archivo `.pem` localmente. Se debe mover a una bóveda segura (ej. AWS Secrets Manager).
+> This deployment generates a unique keypair that allows access to the instance via SSH. The template logic is designed to place the `.pem` file in the local folder of the deployment module. It should be moved to a secure vault (you can use Secrets Manager).
+
+![EC2 folder](Docs/Assets/folder_ec2_pemfile.png)
 
 ---
 
-## 🧪 HTTPD_ASG
+## HTTPD_ASG
 
-- Despliega ASG, ALB, buckets S3, roles IAM y SGs
+- This project implements multiple resources that fully meet the requested requirements. It is modularized to maintain code reusability, scalability, and clarity.
 
-### Comandos
+- Main objectives:
+    - Create an Auto Scaling Group (ASG) distributed across private subnets. Distribute instances across subnets sub3 and sub4.
+    - Create a Launch Template to deploy Red Hat Linux instances with HTTPD.
+    - Deploy an Application Load Balancer that accepts HTTP traffic (port 80) from the Internet. It must also redirect incoming traffic to the ASG on port 443.
+    - Create S3 buckets for logs and image repositories with specific conditions (Lifecycle Rules and object expiration).
+    - Create a role that allows instances launched from the ASG to interact with the previously created buckets.
+    - Define specific Security Groups for each component.
+
+### Execution steps
+
+To deploy it, clone the repository and position yourself in the “HTTPD_ASG” folder.
+
+![EC2 folder](Docs/Assets/folder_httpd_asg.png)
 
 ```bash
 cd EC2/
@@ -144,21 +164,29 @@ terraform apply
 
 ---
 
-## 🎯 Design Decisions
+## Design Decisions
 
-- **Backend remoto**: Bootstrap automatizado (S3 + DynamoDB + KMS)
-- **VPC persistente**: se mantiene fuera de la cadena de recursos
-- **EC2 desacoplada**: usada como bastion o instancia de pruebas
-- **Unificación de IAM roles**: un solo role para lectura de `images` y escritura en `logs`
+- **Remote Backend and Terraform-State Locking**: Bootstrap automatizado (S3 + DynamoDB + KMS):
+    - An automated bootstrap was designed to create the remote Terraform backend using an S3 bucket with KMS encryption.
+    - A DynamoDB table for lock control.
+
+This ensures security, state versioning, and prevents conflicts in concurrent deployments.
+
+- **VPC Deployment**: It was decided to implement the VPC as a separate deployment from the rest of the resources to ensure that its administration and maintainability are separate from the infrastructure deployment proposed in the challenge.
+This same VPC can be used for future projects that need to coexist with the components deployed here. This decision is based on maintaining the VPC as a persistent deployment, even if the rest of the resources are seized.
+
+- **EC2 Deployment**: It was decided that the deployed instance would also be deployed independently. It was assumed that it had functionality and utilization outside of the scalable and resilient structure posed by the challenge. It was considered that it could be used as a test scenario or perhaps a bastion-host instance to access the automated deployment instances.
+
+- **IAM Roles, unified**: The requirements require provisioned instances to be able to read from the `images` bucket, but they also require provisioned instances to be able to write logs to the `logs` bucket. Since a Launch template can technically only assume one Instance Profile, it is considered to do so in a single role.
 
 ---
 
 ## 🔗 References
 
-- 🧩 Backend remoto: [Terraform Remote State](https://developer.hashicorp.com/terraform/language/state/remote)
-- 🧩 Módulo VPC: [`terraform-aws-vpc-nfw`](https://github.com/Coalfire-CF/terraform-aws-vpc-nfw)
-- 🧩 EC2: [`terraform-aws-ec2`](https://github.com/Coalfire-CF/terraform-aws-ec2)
-- ⚙️ Recursos AWS:
+- Remote backend: [Terraform Remote State](https://developer.hashicorp.com/terraform/language/state/remote)
+- VPC Module: [`terraform-aws-vpc-nfw`](https://github.com/Coalfire-CF/terraform-aws-vpc-nfw)
+- EC2: [`terraform-aws-ec2`](https://github.com/Coalfire-CF/terraform-aws-ec2)
+- AWS Resources:
   - [Load Balancer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb)
   - [Target Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group)
   - [Listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener)
@@ -170,7 +198,13 @@ terraform apply
 
 ---
 
-## ⚠️ Operational Gaps
+### Improvement Plan
+
+This improvement plan aims to list opportunities to optimize the security, maintainability, scalability, and observability of this project. A series of prioritized actions are proposed to strengthen the design.
+
+
+
+## Operational Gaps
 
 - ❌ Acceso a EC2 via PEM inseguro, puerto 22 abierto
 - ❌ No se usa Session Manager ni bóveda segura
