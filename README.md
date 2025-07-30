@@ -1,6 +1,21 @@
-# 🧩 Solution Overview
+## Description
 
-Esta solución corresponde a un desafío técnico, cumpliendo con los criterios descritos en el desafío enviado:
+This project implements an infrastructure on AWS using Terraform with standalone and modular deployments, as part of a technical challenge for GlobalLogic.
+
+The solution includes:
+
+- Provisioning of a (**VPC**) with public and private subnets distributed across multiple availability zones.
+- Automatic deployment of EC2 instances using **Auto Scaling Groups (ASG)** with load balancing configuration.
+- Implementation of an **Application Load Balancer (ALB)** that exposes the application to the public on port 80 and redirects internal traffic to port 443.
+- Definition of **custom IAM roles** with specific permissions for bucket access and log generation.
+- Configuration of **S3 buckets** with object lifecycle and expiration rules for image and log storage.
+
+The environment was developed following IaC best practices.
+
+
+# Solution Overview
+
+This solution corresponds to a technical challenge, meeting the criteria described in the submitted challenge:
 
 ## 🔷 VPC
 
@@ -12,64 +27,69 @@ Esta solución corresponde a un desafío técnico, cumpliendo con los criterios 
 
 ## 🔷 EC2 Instance
 
-- Ubicada en subnet **sub2**
-- Sistema: **Red Hat Linux**
+- Located in **sub2**
+- AMI: **Red Hat Linux**
 - Specs: `t2.micro`, `20 GB storage`
 
 ## 🔷 Auto Scaling Group (ASG)
 
 - Subnets: `sub3` y `sub4`
-- Sistema: **Red Hat Linux**
-- Specs: `t2.micro`, mínimo 2 hosts, máximo 6
-- Script: instalación de Apache web server (`httpd`)
-- IAM Role: acceso de lectura al bucket `images`
-- Security Group: permite tráfico necesario
+- AMI: **Red Hat Linux**
+- Specs: `t2.micro`, 2 minimum, 6 maximum hosts
+- Script: installing Apache web server (`httpd`)
+- IAM Role: read access to the bucket `images`
+- Security Group: allows necessary traffic
 
 ## 🔷 Application Load Balancer (ALB)
 
-- Escucha en puerto **80 (HTTP)**
-- Redirige tráfico a ASG en **puerto 443**
-- Posicionado frente a las subnets `sub3` y `sub4`
+- Listen in port **80 (HTTP)**
+- Redirect traffic to ASG in **puerto 443**
+- (ALB) listen on TCP port 80 (HTTP) and forwards traffic to the ASG in subnets  `sub3` and `sub4` on port 443 
 
-## 🔷 IAM Role Global
 
-- Permite escritura en bucket `logs` desde **todas las EC2s provisionadas**
+## 🔷 IAM Role
+
+- Allows writing to the `logs` bucket from auto-scaled EC2s
+- Allows reading of the `images` bucket from auto-scaled EC2s
 
 ## 🔷 S3 Buckets
 
 ### Bucket: `Images`
-- Carpeta: `/archive`
-- Carpeta `Memes`: mover objetos >90 días a **Glacier**
+- Folder: `/archive`
+- `Memes` folder: Move objects older than 90 days to **Glacier**
 
 ### Bucket: `Logs`
-- Carpeta `Active`: mover >90 días a **Glacier**
-- Carpeta `Inactive`: borrar objetos >90 días
+- Active folder: Move >90 days to **Glacier**
+- Inactive folder: Delete objects >90 days old
 
 ---
 
 # 🚀 Deployment Instructions
 
-## 🧪 Account Bootstrap
+## Account Bootstrap
 
-> Este script **NO forma parte de los requerimientos**, pero se incluye para inicializar el backend remoto de Terraform.
+This script is **NOT part of the requirements**, but is included to initialize the Terraform remote backend. It is assumed that the AWS account where the deployment will be performed is a new account, as is my case.
 
-### Propósito
 
-- Crear entorno para backend remoto con control de estado y locking
+### Purpose
 
-### Comandos
+- Create KMS Key with Aliases and Policies.
+- Create S3 Bucket for Terraform States with KMS Encryption
+- Create a remote backend environment with terraform-state control and locking.
+- Create DynamoDB Table for Locking
+
+---
+
+### Execution steps
+
+To deploy it, clone the repository and position yourself in the “Bootstrap” folder.
 
 ```bash
 cd Bootstrap/
 chmod +x bootstrap.sh
 ./bootstrap.sh
 ```
-
-### Recursos creados
-
-- 🔐 Clave KMS con alias y políticas
-- 📦 Bucket S3 para estados de Terraform (cifrado KMS)
-- 📊 Tabla DynamoDB para locking
+![Bootstrap folder](Docs/assets/Bootstrap_folder.png)
 
 ---
 
