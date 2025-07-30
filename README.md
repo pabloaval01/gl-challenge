@@ -423,3 +423,56 @@ echo "Apache HTTP and HTTPS OK - $(hostname -f)" > /var/www/html/index.html
 systemctl restart httpd
 ```
 
+IAM Role:
+
+```bash
+aws iam get-role --role-name asg-consolidated-role
+```
+
+```json
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "asg-consolidated-role",
+        "RoleId": "AROA5BLAM74CJ6RCWTSTO",
+        "Arn": "arn:aws:iam::896239730436:role/asg-consolidated-role",
+        "CreateDate": "2025-07-30T22:02:50+00:00",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        },
+        "MaxSessionDuration": 3600,
+        "Tags": [
+            {
+                "Key": "Environment",
+                "Value": "Demo"
+            },
+            {
+                "Key": "Project",
+                "Value": "GL Challenge"
+            },
+            {
+                "Key": "Repository",
+                "Value": "https://github.com/pabloaval01/gl-challenge/tree/main/HTTPD_ASG"
+            },
+            {
+                "Key": "Owner",
+                "Value": "Pablo Valentino"
+            },
+            {
+                "Key": "Terraform",
+                "Value": "True"
+            }
+        ],
+        "RoleLastUsed": {}
+    }
+}
+```
