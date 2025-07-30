@@ -289,3 +289,31 @@ aws ec2 describe-volumes \
 
 20
 ```
+# Httpd Autoscalling
+
+ASG Subnets:
+
+```bash
+aws autoscaling describe-auto-scaling-groups \
+  --auto-scaling-group-names httpd-asg \
+  --query "AutoScalingGroups[0].VPCZoneIdentifier" \
+  --output text
+
+subnet-0dd4f28eb779df644,subnet-0ac2889d058fe9f7a
+```
+
+```bash
+aws ec2 describe-subnets \
+  --subnet-ids subnet-0dd4f28eb779df644 subnet-0ac2889d058fe9f7a \
+  --query "Subnets[].{SubnetId:SubnetId, Name: Tags[?Key=='Name']|[0].Value}" \
+  --output table
+  
+--------------------------------------------------------------
+|                       DescribeSubnets                      |
++-------------------------------+----------------------------+
+|             Name              |         SubnetId           |
++-------------------------------+----------------------------+
+|  vpc-nfw-private-a-us-east-1a |  subnet-0dd4f28eb779df644  |
+|  vpc-nfw-private-b-us-east-1b |  subnet-0ac2889d058fe9f7a  |
++-------------------------------+----------------------------+
+```
