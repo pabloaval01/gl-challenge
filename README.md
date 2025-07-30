@@ -499,6 +499,7 @@ aws iam get-instance-profile \
   --instance-profile-name asg-instance-profile \
   --query "InstanceProfile.Roles[0].RoleName" \
   --output text
+```
 
 asg-consolidated-role
 
