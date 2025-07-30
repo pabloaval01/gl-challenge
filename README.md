@@ -1,4 +1,4 @@
-## Description
+# Description
 
 This project implements an infrastructure on AWS using Terraform with standalone and modular deployments, as part of a technical challenge for GlobalLogic.
 
@@ -13,7 +13,7 @@ The solution includes:
 The environment was developed following IaC best practices.
 
 
-# Solution Overview
+## Solution Overview
 
 This solution corresponds to a technical challenge, meeting the criteria described in the submitted challenge:
 
