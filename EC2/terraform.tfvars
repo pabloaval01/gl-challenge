@@ -22,7 +22,7 @@ tags = {
   Owner       = "Pablo Valentino"
   Project     = "GL Challenge"
   Terraform   = "True"
-  Repository  = "https://github.com/pabloaval01/gl-challenge/tree/main/VPC"
+  Repository  = "https://github.com/pabloaval01/gl-challenge/tree/main/EC2"
 }
 
 private_subnet_tags = {

@@ -220,3 +220,72 @@ This improvement plan aims to list opportunities to optimize the security, maint
 - Lack of active monitoring and alerting: The Cloudwatch agent is not installed, and Log Groups are not defined to send metrics to CloudWatch. Therefore, any issues may go unnoticed due to the lack of the necessary agents and Log Groups.
 
 - IAM policies are being defined within each module, rather than centralized in a specific module that manages policy deployment and control in a unified manner. This makes it difficult to maintain and scale permissions as the infrastructure grows.
+
+---
+
+# Evidence of Deployments
+
+This section contains direct evidence of the successful provisioning of infrastructure using Terraform. As required, we include:
+- Screenshots of running AWS Resorces
+- CLI commands used in each deployment
+- Full Terraform `apply` logs
+
+## VPC
+### `terraform apply` log
+
+The `terraform apply` command was executed to deploy the infrastructure resources.
+
+- The following is an extract from the log, which is stored in full at [`docs/vpc_apply.log`](docs/vpc_apply.log):
+
+
+VPC deployed:
+![VPC Resource](docs/assets/aws_vpc.png)
+
+
+# EC2
+### `terraform apply` log
+
+The `terraform apply` command was executed to deploy the infrastructure resources.
+
+ - The following is an extract from the log, which is stored in full at [`docs/ec2_apply.log`](docs/ec2_apply.log):
+ 
+Instance running:
+[`docs/assets/aws_ec2.png`](docs/assets/aws_ec2.png):
+
+
+#### InstanceType, Platform, subnet and volume
+
+InstanceType and Platform
+```bash
+aws ec2 describe-instances \      ok | %
+  --instance-ids i-012f4238cc4d123c7 \
+  --query "Reservations[0].Instances[0].{InstanceType:InstanceType, SubnetId:SubnetId, PlatformDetails:PlatformDetails, VolumeId:BlockDeviceMappings[0].Ebs.VolumeId}" \
+  --output table
+
+---------------------------------------------------------------------------------------------------
+|                                        DescribeInstances                                        |
++-------------+----------------------------+----------------------------+-------------------------+
+|InstanceType |      PlatformDetails       |         SubnetId           |        VolumeId         |
++-------------+----------------------------+----------------------------+-------------------------+
+|  t2.micro   |  Red Hat Enterprise Linux  |  subnet-05aa156cf6143c417  |  vol-0f504f9d433af95c4  |
++-------------+----------------------------+----------------------------+-------------------------+
+```
+
+Subnet:
+```bash
+aws ec2 describe-subnets \
+  --subnet-ids subnet-05aa156cf6143c417 \
+  --query "Subnets[0].Tags[?Key=='Name'].Value" \
+  --output text
+
+vpc-nfw-public-us-east-1b
+```
+Volume Size:
+```bash
+aws ec2 describe-volumes \
+  --volume-ids vol-0f504f9d433af95c4 \
+  --query "Volumes[0].Size" \
+  --output text
+
+20
+```
