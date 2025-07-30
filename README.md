@@ -530,3 +530,68 @@ Folders created:
 ![`s3 buckets image folders`](docs/assets/aws_s3_image_folders.png)
 
 ![`s3 buckets logs forldes`](docs/assets/aws_s3_logs_folders.png)
+
+#### Image Bucket: Lifecycle rule:
+
+```bash
+aws s3api get-bucket-lifecycle-configuration \
+  --bucket images-47732 \
+  --output json
+```
+```json
+{
+    "TransitionDefaultMinimumObjectSize": "all_storage_classes_128K",
+    "Rules": [
+        {
+            "ID": "memes-to-glacier",
+            "Filter": {
+                "Prefix": "archive/Memes/"
+            },
+            "Status": "Enabled",
+            "Transitions": [
+                {
+                    "Days": 90,
+                    "StorageClass": "GLACIER"
+                }
+            ]
+        }
+    ]
+}
+```
+#### Logs Bucket: Lifecycle rule:
+
+```bash
+aws s3api get-bucket-lifecycle-configuration \
+  --bucket logs-92521 \
+  --output json
+```
+```json
+{
+    "TransitionDefaultMinimumObjectSize": "all_storage_classes_128K",
+    "Rules": [
+        {
+            "ID": "active-to-glacier",
+            "Filter": {
+                "Prefix": "active/"
+            },
+            "Status": "Enabled",
+            "Transitions": [
+                {
+                    "Days": 90,
+                    "StorageClass": "GLACIER"
+                }
+            ]
+        },
+        {
+            "Expiration": {
+                "Days": 90
+            },
+            "ID": "inactive-delete",
+            "Filter": {
+                "Prefix": "inactive/"
+            },
+            "Status": "Enabled"
+        }
+    ]
+}
+```
