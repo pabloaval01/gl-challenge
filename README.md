@@ -62,6 +62,11 @@ This solution corresponds to a technical challenge, meeting the criteria describ
 - Active folder: Move >90 days to **Glacier**
 - Inactive folder: Delete objects >90 days old
 
+
+### Solution Diagram:
+
+![Solution diagram](docs/assets/diagrama_challenge.jpg)
+
 ---
 
 # 🚀 Deployment Instructions
