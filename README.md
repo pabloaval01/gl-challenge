@@ -153,7 +153,7 @@ This project implements multiple resources that fully meet the requested require
 
 To deploy it, clone the repository and position yourself in the “HTTPD_ASG” folder.
 
-![Httpd folder](docs/assets/folder_httpd_asg.png)
+![Httpd folder](docs/assets/folder_http_asg.png)
 
 ```bash
 cd EC2/
