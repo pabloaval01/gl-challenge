@@ -595,3 +595,108 @@ aws s3api get-bucket-lifecycle-configuration \
     ]
 }
 ```
+### Application Load Balcancer
+
+The ALB is present in the account:
+![`ALB`](docs/assets/aws_alb.png)
+
+#### ALB Listeners:
+
+```bash
+ALB_ARN=$(aws elbv2 describe-load-balancers \
+  --names alb-http \
+  --query "LoadBalancers[0].LoadBalancerArn" \
+  --output text)
+
+
+aws elbv2 describe-listeners \
+  --load-balancer-arn $ALB_ARN \
+  --query "Listeners[].{Protocol:Protocol, Port:Port, SSLPolicy:SSLPolicy, Certificates:Certificates}" \
+  --output table
+
+
+---------------------------------------------------
+|                DescribeListeners                |
++---------------+-------+-----------+-------------+
+| Certificates  | Port  | Protocol  |  SSLPolicy  |
++---------------+-------+-----------+-------------+
+|  None         |  80   |  HTTP     |  None       |
++---------------+-------+-----------+-------------+
+```
+
+#### Validation of forwards traffic to 443
+
+```bash
+#ALB ARN
+aws elbv2 describe-load-balancers \
+  --names alb-http \
+  --query "LoadBalancers[0].LoadBalancerArn" \
+  --output text
+ 
+ arn:aws:elasticloadbalancing:us-east-1:896239730436:loadbalancer/app/alb-http/0fc9d8544cce3013
+ 
+ # ALB listener-arn
+ aws elbv2 describe-listeners \
+  --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:896239730436:loadbalancer/app/alb-http/0fc9d8544cce3013 \
+  --query "Listeners[?Port==\`80\`].ListenerArn" \
+  --output text
+  
+ arn:aws:elasticloadbalancing:us-east-1:896239730436:listener/app/alb-http/0fc9d8544cce3013/c0cd9e054418c71d
+ 
+# Target Group ARN
+aws elbv2 describe-listeners \
+  --listener-arn arn:aws:elasticloadbalancing:us-east-1:896239730436:listener/app/alb-http/0fc9d8544cce3013/c0cd9e054418c71d \
+  --query "Listeners[0].DefaultActions[?Type=='forward'].TargetGroupArn" \
+  --output text
+
+arn:aws:elasticloadbalancing:us-east-1:896239730436:targetgroup/alb-asg-tg/072aedd671dbfcb1
+
+
+# Check if Target Group points to port 443
+aws elbv2 describe-target-groups \
+  --target-group-arns arn:aws:elasticloadbalancing:us-east-1:896239730436:targetgroup/alb-asg-tg/072aedd671dbfcb1 \
+  --query "TargetGroups[0].{Port:Port, Protocol:Protocol}" \
+  --output table
+
+----------------------
+|DescribeTargetGroups|
++-------+------------+
+| Port  | Protocol   |
++-------+------------+
+|  443  |  HTTPS     |
++-------+------------+
+
+# Instances registered in the Target Group
+aws elbv2 describe-target-health \
+  --target-group-arn arn:aws:elasticloadbalancing:us-east-1:896239730436:targetgroup/alb-asg-tg/072aedd671dbfcb1 \
+  --query "TargetHealthDescriptions[].Target.Id" \
+  --output text
+
+"i-08fa83c9d475e918f     i-041a5959724031ad2"
+```
+Validation of deployed instances:
+![`ALB Instances`](docs/assets/aws_ec2_asg.png)
+
+### Navigation Validation: Public ALB → Private EC2 with Httpd
+
+![`ALB Browsing`](docs/assets/aws_alb_browsing.png)
+Traffic balancing and forwarding is correct
+
+```bash
+curl -i -L -k \                       ok | %
+  --connect-timeout 5 \
+  --max-time 10 \
+  http://alb-http-457774293.us-east-1.elb.amazonaws.com
+
+HTTP/1.1 200 OK
+Date: Thu, 31 Jul 2025 00:10:50 GMT
+Content-Type: text/html; charset=UTF-8
+Content-Length: 54
+Connection: keep-alive
+Server: Apache/2.4.62 (Red Hat Enterprise Linux) OpenSSL/3.2.2
+Last-Modified: Wed, 30 Jul 2025 22:11:28 GMT
+ETag: "36-63b2cce6ec2d8"
+Accept-Ranges: bytes
+
+Apache HTTP and HTTPS OK - ip-10-1-2-122.ec2.internal
+```
